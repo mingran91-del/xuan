@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XUAN — Eastern Astrology, Decoded by AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Noto+Serif+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0a10;--ink2:#0f0f1a;--panel:#13131f;
+  --gold:#c9a96a;--gold-bright:#e9d4a3;--gold-deep:#8c7242;
+  --cream:#ece5d6;--dim:#7c7668;--star:#9fb0d8;--line:rgba(201,169,106,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--cream);font-family:'Cormorant Garamond','Noto Serif SC',serif;overflow-x:hidden;cursor:none}
+::selection{background:var(--gold);color:var(--ink)}
+::-webkit-scrollbar{width:7px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:var(--gold-deep);border-radius:4px}
+.grain{position:fixed;inset:0;z-index:9;pointer-events:none;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.vignette{position:fixed;inset:0;z-index:8;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.55) 100%)}
+#stars{position:fixed;inset:0;z-index:0}
+.cursor{position:fixed;width:7px;height:7px;border-radius:50%;background:var(--gold-bright);z-index:9999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .25s,height .25s}
+.cursor-ring{position:fixed;width:34px;height:34px;border:1px solid var(--gold);border-radius:50%;z-index:9999;pointer-events:none;transform:translate(-50%,-50%);opacity:.5;transition:width .3s,height .3s,opacity .3s}
+.cursor.big{width:14px;height:14px}
+@media(hover:none){.cursor,.cursor-ring{display:none}body{cursor:auto}}
+#loader{position:fixed;inset:0;z-index:10000;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;transition:opacity 1s ease,visibility 1s}
+#loader.done{opacity:0;visibility:hidden}
+.loader-disc{width:120px;height:120px;animation:spin 8s linear infinite}.loader-disc svg{width:100%;height:100%}
+.loader-txt{font-family:'Cinzel',serif;letter-spacing:.5em;font-size:13px;color:var(--gold);opacity:0;animation:fadeUp 1.4s .4s forwards}
+.loader-bar{width:140px;height:1px;background:var(--line);position:relative;overflow:hidden}
+.loader-bar::after{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-100%);animation:load 2.2s .2s forwards cubic-bezier(.7,0,.3,1)}
+@keyframes load{to{transform:translateX(0)}}@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:26px 48px;transition:padding .4s;mix-blend-mode:difference}
+nav.scrolled{padding:16px 48px}
+.brand{font-family:'Noto Serif SC',serif;font-weight:700;font-size:26px;letter-spacing:.05em;color:#fff;display:flex;align-items:center;gap:12px}
+.brand small{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.45em;font-weight:500;color:#fff;opacity:.7}
+.nav-right{display:flex;align-items:center;gap:34px}
+.nav-links{display:flex;gap:38px;align-items:center}
+.nav-links a{color:#fff;text-decoration:none;font-family:'Cinzel',serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.8;transition:opacity .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-5px;width:0;height:1px;background:#fff;transition:width .3s}
+.nav-links a:hover::after{width:100%}
+.lang-toggle{background:transparent;border:1px solid #fff;color:#fff;font-family:'Cinzel',serif;font-size:12px;letter-spacing:.1em;padding:7px 14px;border-radius:20px;cursor:none;transition:background .3s,color .3s;min-width:46px}
+.lang-toggle:hover{background:#fff;color:#000}
+@media(max-width:860px){.nav-links{display:none}nav{padding:20px 24px}}
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;text-align:center;padding:0 24px;z-index:2}
+.hero-disc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(78vmin,640px);height:min(78vmin,640px);z-index:-1;opacity:.85}
+.hero-disc .ring1{animation:spin 90s linear infinite;transform-origin:center}
+.hero-disc .ring2{animation:spin 60s linear infinite reverse;transform-origin:center}
+.hero-disc .ring3{animation:spin 120s linear infinite;transform-origin:center}
+.hero-sub{font-family:'Cinzel',serif;letter-spacing:.5em;font-size:12px;color:var(--gold);margin-bottom:30px;opacity:0;animation:fadeUp 1.2s 1.6s forwards}
+.hero h1{font-family:'Noto Serif SC',serif;font-weight:300;line-height:1.05;font-size:clamp(54px,12vw,150px);letter-spacing:.02em;background:linear-gradient(180deg,#fff 0%,var(--gold-bright) 60%,var(--gold-deep) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;opacity:0;animation:fadeUp 1.4s 1.8s forwards}
+.hero h1 em{font-style:normal;display:block;font-family:'Cinzel',serif;font-weight:400;font-size:clamp(14px,2.4vw,26px);letter-spacing:.4em;-webkit-text-fill-color:var(--gold);margin-top:24px;opacity:.85}
+.hero-desc{max-width:560px;margin:34px auto 0;font-size:21px;line-height:1.7;color:var(--dim);font-family:'Noto Serif SC',serif;font-weight:300;opacity:0;animation:fadeUp 1.4s 2.1s forwards}
+.cta-row{display:flex;gap:18px;margin-top:46px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp 1.4s 2.4s forwards}
+.btn{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.16em;text-transform:uppercase;padding:17px 38px;border:1px solid var(--gold);color:var(--gold-bright);text-decoration:none;position:relative;overflow:hidden;transition:color .4s;background:transparent;cursor:none}
+.btn span{position:relative;z-index:1}
+.btn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateY(101%);transition:transform .45s cubic-bezier(.7,0,.3,1)}
+.btn:hover{color:var(--ink)}.btn:hover::before{transform:translateY(0)}
+.btn.solid{background:var(--gold);color:var(--ink)}.btn.solid::before{background:var(--gold-bright)}
+.scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-family:'Cinzel',serif;font-size:10px;letter-spacing:.35em;color:var(--dim);display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;animation:fadeUp 1.4s 2.8s forwards}
+.scroll-line{width:1px;height:46px;background:linear-gradient(var(--gold),transparent);position:relative;overflow:hidden}
+.scroll-line::after{content:'';position:absolute;top:0;left:0;width:100%;height:40%;background:var(--gold-bright);animation:drop 2s infinite}
+@keyframes drop{0%{transform:translateY(-100%)}100%{transform:translateY(250%)}}
+section{position:relative;z-index:2}
+.wrap{max-width:1180px;margin:0 auto;padding:0 48px}
+@media(max-width:680px){.wrap{padding:0 24px}}
+.eyebrow{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:14px}
+.eyebrow::before{content:'';width:38px;height:1px;background:var(--gold)}
+.eyebrow.ctr{justify-content:center}
+.sec-title{font-family:'Noto Serif SC',serif;font-weight:300;font-size:clamp(34px,5.5vw,62px);line-height:1.15;margin-bottom:26px}
+.sec-title b{font-weight:500;color:var(--gold-bright)}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:140px 0}
+.stat{background:var(--ink);padding:48px 28px;text-align:center}
+.stat .num{font-family:'Cinzel',serif;font-size:clamp(30px,4vw,46px);color:var(--gold-bright);line-height:1}
+.stat .lbl{font-family:'Noto Serif SC',serif;font-size:14px;color:var(--dim);margin-top:14px;font-weight:300}
+@media(max-width:680px){.stats{grid-template-columns:repeat(2,1fr)}}
+.services{padding:60px 0 40px}
+.svc-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;margin-bottom:70px}
+.svc-head p{max-width:360px;color:var(--dim);font-size:19px;line-height:1.7;font-family:'Noto Serif SC',serif;font-weight:300}
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.svc{background:var(--ink);padding:52px 46px;position:relative;overflow:hidden;transition:background .5s;min-height:280px;display:flex;flex-direction:column}
+.svc:hover{background:var(--ink2)}
+.svc-sym{font-family:'Noto Serif SC',serif;font-size:42px;color:var(--gold);margin-bottom:auto;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.svc:hover .svc-sym{transform:translateY(-6px) scale(1.05)}
+.svc h3{font-family:'Noto Serif SC',serif;font-size:27px;font-weight:500;margin:30px 0 8px}
+.svc h3 em{font-style:normal;font-family:'Cinzel',serif;font-size:12px;letter-spacing:.25em;color:var(--gold);display:block;margin-top:6px}
+.svc p{color:var(--dim);font-size:17px;line-height:1.65;font-family:'Noto Serif SC',serif;font-weight:300}
+.svc .glow{position:absolute;width:340px;height:340px;border-radius:50%;top:-120px;right:-120px;background:radial-gradient(circle,rgba(201,169,106,.14),transparent 70%);opacity:0;transition:opacity .6s}
+.svc:hover .glow{opacity:1}
+@media(max-width:680px){.svc-grid{grid-template-columns:1fr}.svc{padding:40px 30px;min-height:auto}}
+.how{padding:160px 0}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:50px;margin-top:80px}
+.step{position:relative;padding-top:40px}
+.step .idx{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.3em;color:var(--gold);position:absolute;top:0;left:0;border-top:1px solid var(--gold);padding-top:14px;width:100%}
+.step h4{font-family:'Noto Serif SC',serif;font-size:25px;font-weight:500;margin:24px 0 14px}
+.step p{color:var(--dim);font-size:17px;line-height:1.7;font-family:'Noto Serif SC',serif;font-weight:300}
+@media(max-width:680px){.steps{grid-template-columns:1fr;gap:42px}}
+.try{padding:130px 0;position:relative}
+.try-inner{background:linear-gradient(160deg,var(--ink2),var(--ink));border:1px solid var(--line);padding:70px 60px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;overflow:hidden}
+.try-inner::before{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,106,.08),transparent 70%);top:-200px;left:-150px}
+.try-form{position:relative;z-index:2}
+.try-form label{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:9px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px}
+.field{display:flex;flex-direction:column}
+.try input,.try select{background:rgba(0,0,0,.3);border:1px solid var(--line);color:var(--cream);font-family:'Noto Serif SC',serif;font-size:16px;padding:13px 14px;outline:none;transition:border-color .3s}
+.try input:focus,.try select:focus{border-color:var(--gold)}
+.try select option{background:var(--ink2)}
+.divine{width:100%;margin-top:8px;font-family:'Cinzel',serif;font-size:13px;letter-spacing:.18em;text-transform:uppercase;padding:18px;background:var(--gold);color:var(--ink);border:none;cursor:none;transition:background .3s,letter-spacing .3s}
+.divine:hover{background:var(--gold-bright);letter-spacing:.24em}
+.result{position:relative;z-index:2;min-height:300px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--line);padding-left:56px}
+.result .placeholder{color:var(--dim);font-family:'Noto Serif SC',serif;font-weight:300;font-size:18px;line-height:1.8;font-style:italic}
+.result-zodiac{font-family:'Noto Serif SC',serif;font-size:64px;color:var(--gold-bright);line-height:1;opacity:0;transition:opacity .8s}
+.result-zodiac.show{opacity:1}
+.result-tag{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;color:var(--gold);margin:18px 0 22px;opacity:0;transition:opacity .8s .15s}
+.result-tag.show{opacity:1}
+.result-text{font-family:'Noto Serif SC',serif;font-weight:300;font-size:19px;line-height:1.9;color:var(--cream);opacity:0;transition:opacity .8s .3s}
+.result-text.show{opacity:1}
+.result-foot{margin-top:26px;font-size:14px;color:var(--dim);font-family:'Noto Serif SC',serif;opacity:0;transition:opacity .8s .45s}
+.result-foot.show{opacity:1}
+.result-foot a{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-deep);cursor:none}
+@media(max-width:780px){.try-inner{grid-template-columns:1fr;padding:44px 30px;gap:40px}.result{border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:40px;min-height:auto}}
+.pricing{padding:140px 0}
+.price-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:70px auto 0;max-width:760px}
+.price{background:var(--ink);padding:50px 40px;display:flex;flex-direction:column;transition:background .5s;position:relative}
+.price:hover{background:var(--ink2)}.price.feat{background:var(--ink2)}
+.price-badge{position:absolute;top:20px;right:20px;font-family:'Cinzel',serif;font-size:10px;color:var(--ink);background:var(--gold);padding:5px 12px;letter-spacing:.12em}
+.price .tier{font-family:'Cinzel',serif;font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold)}
+.price .amt{font-family:'Noto Serif SC',serif;font-size:48px;font-weight:300;margin:24px 0 4px;color:#fff}
+.price .amt small{font-size:17px;color:var(--dim)}
+.price .note{color:var(--dim);font-size:15px;font-family:'Noto Serif SC',serif;font-weight:300;margin-bottom:28px}
+.price ul{list-style:none;margin-bottom:34px;flex:1}
+.price li{font-family:'Noto Serif SC',serif;font-weight:300;font-size:16px;color:var(--cream);padding:11px 0;border-bottom:1px solid rgba(201,169,106,.08);display:flex;gap:12px}
+.price li::before{content:'\2630';color:var(--gold);font-size:13px}
+@media(max-width:780px){.price-grid{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--line);margin-top:80px;padding:80px 0 40px;position:relative;z-index:2}
+.foot-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:60px}
+.foot-brand{font-family:'Noto Serif SC',serif;font-size:40px;font-weight:700;color:var(--gold-bright)}
+.foot-brand small{display:block;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.4em;color:var(--dim);margin-top:10px;font-weight:400}
+.foot-cols{display:flex;gap:80px;flex-wrap:wrap}
+.foot-col h5{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.25em;color:var(--gold);text-transform:uppercase;margin-bottom:18px}
+.foot-col a{display:block;color:var(--dim);text-decoration:none;font-family:'Noto Serif SC',serif;font-weight:300;font-size:16px;padding:6px 0;transition:color .3s;cursor:none}
+.foot-col a:hover{color:var(--cream)}
+.foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-top:30px;border-top:1px solid var(--line);font-family:'Noto Serif SC',serif;font-weight:300;font-size:13px;color:var(--dim)}
+.disclaimer{max-width:640px;line-height:1.7}
+/* waitlist modal */
+.overlay{position:fixed;inset:0;z-index:9000;background:rgba(5,5,9,.86);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:24px}
+.overlay.show{display:flex;animation:ov .3s}
+@keyframes ov{from{opacity:0}to{opacity:1}}
+.wl{background:linear-gradient(160deg,var(--ink2),var(--ink));border:1px solid var(--line);max-width:440px;width:100%;padding:54px 46px;position:relative;text-align:center;animation:wlin .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes wlin{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.wl .x{position:absolute;top:18px;right:22px;font-size:26px;color:var(--dim);cursor:none;line-height:1}
+.wl .sym{font-family:'Noto Serif SC',serif;font-size:46px;color:var(--gold);margin-bottom:18px}
+.wl h3{font-family:'Noto Serif SC',serif;font-weight:500;font-size:26px;margin-bottom:12px}
+.wl p{color:var(--dim);font-family:'Noto Serif SC',serif;font-weight:300;font-size:17px;line-height:1.6;margin-bottom:28px}
+.wl input{width:100%;background:rgba(0,0,0,.3);border:1px solid var(--line);color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:17px;padding:14px;outline:none;text-align:center;margin-bottom:14px;transition:border-color .3s}
+.wl input:focus{border-color:var(--gold)}
+.wl button.sub{width:100%;font-family:'Cinzel',serif;font-size:13px;letter-spacing:.18em;text-transform:uppercase;padding:16px;background:var(--gold);color:var(--ink);border:none;cursor:none;transition:background .3s}
+.wl button.sub:hover{background:var(--gold-bright)}
+.wl .ok{color:var(--gold-bright);font-family:'Noto Serif SC',serif;font-size:20px;padding:14px 0}
+</style>
+</head>
+<body>
+<div class="grain"></div><div class="vignette"></div>
+<canvas id="stars"></canvas>
+<div class="cursor" id="cur"></div><div class="cursor-ring" id="curR"></div>
+
+<div id="loader">
+  <div class="loader-disc">
+    <svg viewBox="0 0 100 100" fill="none" stroke="#c9a96a">
+      <circle cx="50" cy="50" r="46" stroke-width=".5" opacity=".6"/><circle cx="50" cy="50" r="34" stroke-width=".5" opacity=".4"/>
+      <circle cx="50" cy="50" r="22" stroke-width=".5" opacity=".5"/>
+      <path d="M50 4 L50 96 M4 50 L96 50 M18 18 L82 82 M82 18 L18 82" stroke-width=".4" opacity=".35"/>
+      <circle cx="50" cy="4" r="2" fill="#e9d4a3" stroke="none"/><circle cx="50" cy="50" r="3" fill="#e9d4a3" stroke="none"/>
+    </svg>
+  </div>
+  <div class="loader-txt">DIVINING DESTINY</div>
+  <div class="loader-bar"></div>
+</div>
+
+<nav id="nav">
+  <div class="brand">玄 <small>XUAN</small></div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#services" data-i18n="nav.read">Readings</a>
+      <a href="#how" data-i18n="nav.method">Method</a>
+      <a href="#try" data-i18n="nav.try">Try</a>
+      <a href="#pricing" data-i18n="nav.price">Pricing</a>
+      <a href="#try" data-i18n="nav.begin">Begin →</a>
+    </div>
+    <button class="lang-toggle" id="langBtn" data-cur>中</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <svg class="hero-disc" viewBox="0 0 600 600" fill="none" stroke="#c9a96a">
+    <g class="ring1"><circle cx="300" cy="300" r="290" stroke-width="1" opacity=".5"/><circle cx="300" cy="300" r="270" stroke-width=".5" opacity=".3"/>
+      <circle cx="300" cy="300" r="280" stroke-width="14" stroke-dasharray="1 47.3" opacity=".3"/>
+      <text x="300" y="40" fill="#c9a96a" stroke="none" font-size="16" text-anchor="middle" font-family="Noto Serif SC">子</text>
+      <text x="560" y="306" fill="#c9a96a" stroke="none" font-size="16" text-anchor="middle" font-family="Noto Serif SC">卯</text>
+      <text x="300" y="572" fill="#c9a96a" stroke="none" font-size="16" text-anchor="middle" font-family="Noto Serif SC">午</text>
+      <text x="40" y="306" fill="#c9a96a" stroke="none" font-size="16" text-anchor="middle" font-family="Noto Serif SC">酉</text></g>
+    <g class="ring2"><circle cx="300" cy="300" r="210" stroke-width=".7" opacity=".5"/><circle cx="300" cy="300" r="180" stroke-width=".4" opacity=".3"/>
+      <path d="M300 90 L470 390 L130 390 Z" stroke-width=".6" opacity=".25"/><path d="M300 510 L470 210 L130 210 Z" stroke-width=".6" opacity=".25"/></g>
+    <g class="ring3"><circle cx="300" cy="300" r="130" stroke-width=".6" opacity=".5"/><circle cx="300" cy="300" r="100" stroke-width=".4" opacity=".4"/>
+      <circle cx="300" cy="170" r="3" fill="#e9d4a3" stroke="none"/><circle cx="430" cy="300" r="2.5" fill="#9fb0d8" stroke="none"/>
+      <circle cx="300" cy="430" r="3" fill="#e9d4a3" stroke="none"/><circle cx="170" cy="300" r="2.5" fill="#9fb0d8" stroke="none"/></g>
+    <circle cx="300" cy="300" r="5" fill="#e9d4a3" stroke="none"/>
+  </svg>
+  <div class="hero-sub" data-i18n="hero.sub">ANCIENT EASTERN ASTROLOGY · DECODED BY AI</div>
+  <h1 data-i18n="hero.title">Know Your<br>Destiny<em>知 命 知 运</em></h1>
+  <p class="hero-desc" data-i18n="hero.desc">Five thousand years of Eastern astrology,<br>calculated and read for you by AI.<br>BaZi · Zi Wei · Compatibility · Fortune.</p>
+  <div class="cta-row">
+    <a href="#try" class="btn solid" data-cur><span data-i18n="hero.cta1">Free Reading</span></a>
+    <a href="#services" class="btn" data-cur><span data-i18n="hero.cta2">The Systems</span></a>
+  </div>
+  <div class="scroll-hint">SCROLL<div class="scroll-line"></div></div>
+</section>
+
+<div class="wrap">
+  <div class="stats reveal">
+    <div class="stat"><div class="num">5000</div><div class="lbl" data-i18n="stat.1">Years of Eastern wisdom</div></div>
+    <div class="stat"><div class="num">4</div><div class="lbl" data-i18n="stat.2">Core divination systems</div></div>
+    <div class="stat"><div class="num">12s</div><div class="lbl" data-i18n="stat.3">Per full reading</div></div>
+    <div class="stat"><div class="num">28</div><div class="lbl" data-i18n="stat.4">Constellations analyzed</div></div>
+  </div>
+</div>
+
+<section class="services wrap" id="services">
+  <div class="svc-head reveal">
+    <div><div class="eyebrow" data-i18n="svc.eyebrow">The Systems</div>
+      <h2 class="sec-title" data-i18n="svc.title">One chart, <b>the whole sky</b></h2></div>
+    <p data-i18n="svc.desc">Charts are cast with exact calendrical precision; AI makes the arcane clear — ancient method and modern intelligence, each in its place.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc reveal" data-cur><div class="glow"></div><div class="svc-sym">命</div>
+      <h3 data-i18n="svc.1t">The Four Pillars<em>八字 · BĀ ZÌ</em></h3>
+      <p data-i18n="svc.1p">From your birth moment four pillars rise, revealing the balance of your five elements and the shape of character, career, wealth and love.</p></div>
+    <div class="svc reveal" data-cur style="transition-delay:.1s"><div class="glow"></div><div class="svc-sym">紫</div>
+      <h3 data-i18n="svc.2t">Purple Star Astrology<em>紫微斗数 · ZǏ WĒI</em></h3>
+      <p data-i18n="svc.2p">Twelve palaces, the stars arranged — the Zi Wei chart maps the architecture of a whole life and the tides of each passing year.</p></div>
+    <div class="svc reveal" data-cur style="transition-delay:.05s"><div class="glow"></div><div class="svc-sym">缘</div>
+      <h3 data-i18n="svc.3t">Compatibility<em>合婚 · HÉ HŪN</em></h3>
+      <p data-i18n="svc.3p">Two charts mirrored — how your elements meet, where you harmonize, and how deep the bond between you truly runs.</p></div>
+    <div class="svc reveal" data-cur style="transition-delay:.15s"><div class="glow"></div><div class="svc-sym">运</div>
+      <h3 data-i18n="svc.4t">Yearly Fortune<em>流年 · LIÚ NIÁN</em></h3>
+      <p data-i18n="svc.4p">Year by year, fortune traced — when to advance, when to wait, and the auspicious days worth choosing.</p></div>
+  </div>
+</section>
+
+<section class="how wrap" id="how">
+  <div class="reveal"><div class="eyebrow" data-i18n="how.eyebrow">How it works</div>
+    <h2 class="sec-title" data-i18n="how.title">Ancient charts, <b>read by AI</b></h2></div>
+  <div class="steps">
+    <div class="step reveal"><div class="idx">壹 · INPUT</div><h4 data-i18n="how.1t">Enter your birth</h4>
+      <p data-i18n="how.1p">Give the year, month, day and hour of your birth. The calendar engine fixes your chart precisely by the 24 solar terms.</p></div>
+    <div class="step reveal" style="transition-delay:.12s"><div class="idx">贰 · COMPUTE</div><h4 data-i18n="how.2t">Cast the chart</h4>
+      <p data-i18n="how.2p">In an instant your Four Pillars and Zi Wei chart are cast — elements, stars and palaces laid out in full.</p></div>
+    <div class="step reveal" style="transition-delay:.24s"><div class="idx">叁 · REVEAL</div><h4 data-i18n="how.3t">Reveal the reading</h4>
+      <p data-i18n="how.3p">AI turns the arcane into clear, readable insight: character, career, love and the year ahead, all at a glance.</p></div>
+  </div>
+</section>
+
+<section class="try wrap" id="try">
+  <div class="reveal" style="margin-bottom:50px"><div class="eyebrow" data-i18n="try.eyebrow">Try it now</div>
+    <h2 class="sec-title" data-i18n="try.title">Enter your birth, <b>glimpse the chart</b></h2></div>
+  <div class="try-inner reveal">
+    <div class="try-form">
+      <div class="field-row">
+        <div class="field"><label data-i18n="try.year">Birth Year</label><input type="number" id="y" placeholder="1996" min="1920" max="2025"></div>
+        <div class="field"><label data-i18n="try.month">Month</label><select id="m"></select></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label data-i18n="try.day">Day</label><select id="d"></select></div>
+        <div class="field"><label data-i18n="try.hour">Hour</label><select id="h"></select></div>
+      </div>
+      <button class="divine" id="divineBtn" data-cur data-i18n="try.btn">Divine My Chart</button>
+    </div>
+    <div class="result" id="result">
+      <div class="placeholder" data-i18n="try.ph">The stars are silent.<br>Enter your birth details to glimpse<br>your zodiac sign and a fragment of today's fortune.</div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing wrap" id="pricing">
+  <div class="reveal" style="text-align:center"><div class="eyebrow ctr" data-i18n="price.eyebrow">Pricing</div>
+    <h2 class="sec-title" data-i18n="price.title">Start with one chart, <b>see it all</b></h2></div>
+  <div class="price-grid">
+    <div class="price reveal">
+      <div class="tier">Free</div><div class="amt">$0</div><div class="note" data-i18n="price.f.note">A first glimpse, on us</div>
+      <ul><li data-i18n="price.f.1">Basic chart · your zodiac sign</li><li data-i18n="price.f.2">A fragment of today's fortune</li><li data-i18n="price.f.3">Beautiful chart to admire</li></ul>
+      <a href="#try" class="btn" data-cur><span data-i18n="price.f.btn">Start Free</span></a>
+    </div>
+    <div class="price feat reveal" style="transition-delay:.1s">
+      <div class="price-badge" data-i18n="price.badge">MOST POPULAR</div>
+      <div class="tier">Full Reading</div><div class="amt">$12<small data-i18n="price.r.unit"> / reading</small></div><div class="note" data-i18n="price.r.note">One complete reading</div>
+      <ul><li data-i18n="price.r.1">Full BaZi / Zi Wei analysis</li><li data-i18n="price.r.2">Character · career · wealth · love</li><li data-i18n="price.r.3">Your fortune for the year ahead</li><li data-i18n="price.r.4">Elegant reading to download & share</li></ul>
+      <button class="btn solid wl-open" data-cur><span data-i18n="price.r.btn">Get My Reading</span></button>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="foot-top">
+    <div class="foot-brand">玄<small>XUAN · EASTERN ASTROLOGY</small></div>
+    <div class="foot-cols">
+      <div class="foot-col"><h5 data-i18n="foot.read">Readings</h5>
+        <a href="#" data-i18n="svc.1tt">Four Pillars</a><a href="#" data-i18n="svc.2tt">Purple Star</a><a href="#" data-i18n="svc.3tt">Compatibility</a><a href="#" data-i18n="svc.4tt">Yearly Fortune</a></div>
+      <div class="foot-col"><h5 data-i18n="foot.about">About</h5>
+        <a href="#" data-i18n="foot.how">How it works</a><a href="#" data-i18n="foot.price">Pricing</a><a href="#" data-i18n="foot.privacy">Privacy</a><a href="#" data-i18n="foot.contact">Contact</a></div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <div class="disclaimer" data-i18n="foot.disc">© 2026 XUAN. All readings are provided for entertainment and self-reflection only, and do not constitute medical, legal, financial or any other professional advice.</div>
+    <div>Made under the Eastern stars ✦</div>
+  </div>
+</footer>
+
+<!-- WAITLIST -->
+<div class="overlay" id="overlay">
+  <div class="wl">
+    <span class="x wl-close" data-cur>&times;</span>
+    <div class="sym">玄</div>
+    <div id="wlBody">
+      <h3 data-i18n="wl.title">Join the waitlist</h3>
+      <p data-i18n="wl.desc">Full readings are launching soon. Leave your email to be first in line — and get a free reading at launch.</p>
+      <input type="email" id="wlEmail" placeholder="your@email.com">
+      <button class="sub" id="wlSub" data-cur data-i18n="wl.btn">Notify Me</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- i18n ---------- */
+const I18N={
+ en:{
+  'nav.read':'Readings','nav.method':'Method','nav.try':'Try','nav.price':'Pricing','nav.begin':'Begin →',
+  'hero.sub':'ANCIENT EASTERN ASTROLOGY · DECODED BY AI',
+  'hero.title':'Know Your<br>Destiny<em>知 命 知 运</em>',
+  'hero.desc':"Five thousand years of Eastern astrology,<br>calculated and read for you by AI.<br>BaZi · Zi Wei · Compatibility · Fortune.",
+  'hero.cta1':'Free Reading','hero.cta2':'The Systems',
+  'stat.1':'Years of Eastern wisdom','stat.2':'Core divination systems','stat.3':'Per full reading','stat.4':'Constellations analyzed',
+  'svc.eyebrow':'The Systems','svc.title':'One chart, <b>the whole sky</b>',
+  'svc.desc':'Charts are cast with exact calendrical precision; AI makes the arcane clear — ancient method and modern intelligence, each in its place.',
+  'svc.1t':'The Four Pillars<em>八字 · BĀ ZÌ</em>','svc.1p':'From your birth moment four pillars rise, revealing the balance of your five elements and the shape of character, career, wealth and love.',
+  'svc.2t':'Purple Star Astrology<em>紫微斗数 · ZǏ WĒI</em>','svc.2p':'Twelve palaces, the stars arranged — the Zi Wei chart maps the architecture of a whole life and the tides of each passing year.',
+  'svc.3t':'Compatibility<em>合婚 · HÉ HŪN</em>','svc.3p':'Two charts mirrored — how your elements meet, where you harmonize, and how deep the bond between you truly runs.',
+  'svc.4t':'Yearly Fortune<em>流年 · LIÚ NIÁN</em>','svc.4p':'Year by year, fortune traced — when to advance, when to wait, and the auspicious days worth choosing.',
+  'how.eyebrow':'How it works','how.title':'Ancient charts, <b>read by AI</b>',
+  'how.1t':'Enter your birth','how.1p':'Give the year, month, day and hour of your birth. The calendar engine fixes your chart precisely by the 24 solar terms.',
+  'how.2t':'Cast the chart','how.2p':'In an instant your Four Pillars and Zi Wei chart are cast — elements, stars and palaces laid out in full.',
+  'how.3t':'Reveal the reading','how.3p':'AI turns the arcane into clear, readable insight: character, career, love and the year ahead, all at a glance.',
+  'try.eyebrow':'Try it now','try.title':'Enter your birth, <b>glimpse the chart</b>',
+  'try.year':'Birth Year','try.month':'Month','try.day':'Day','try.hour':'Hour','try.btn':'Divine My Chart',
+  'try.ph':"The stars are silent.<br>Enter your birth details to glimpse<br>your zodiac sign and a fragment of today's fortune.",
+  'price.eyebrow':'Pricing','price.title':'Start with one chart, <b>see it all</b>','price.badge':'MOST POPULAR',
+  'price.f.note':'A first glimpse, on us','price.f.1':'Basic chart · your zodiac sign','price.f.2':"A fragment of today's fortune",'price.f.3':'Beautiful chart to admire','price.f.btn':'Start Free',
+  'price.r.unit':' / reading','price.r.note':'One complete reading','price.r.1':'Full BaZi / Zi Wei analysis','price.r.2':'Character · career · wealth · love','price.r.3':'Your fortune for the year ahead','price.r.4':'Elegant reading to download & share','price.r.btn':'Get My Reading',
+  'foot.read':'Readings','foot.about':'About','foot.how':'How it works','foot.price':'Pricing','foot.privacy':'Privacy','foot.contact':'Contact',
+  'svc.1tt':'Four Pillars','svc.2tt':'Purple Star','svc.3tt':'Compatibility','svc.4tt':'Yearly Fortune',
+  'foot.disc':'© 2026 XUAN. All readings are provided for entertainment and self-reflection only, and do not constitute medical, legal, financial or any other professional advice.',
+  'wl.title':'Join the waitlist','wl.desc':'Full readings are launching soon. Leave your email to be first in line — and get a free reading at launch.','wl.btn':'Notify Me','wl.ok':"You're on the list ✦",
+  'try.alert':'Please enter a valid birth year (1920–2025)','sign':'YOUR SIGN','today':'Today','unlock':'Unlock the full reading →'
+ },
+ zh:{
+  'nav.read':'命理','nav.method':'原理','nav.try':'试算','nav.price':'价格','nav.begin':'开始 →',
+  'hero.sub':'古 法 东 方 命 理 · AI 智 能 解 读',
+  'hero.title':'知命<br>知运<em>KNOW YOUR DESTINY</em>',
+  'hero.desc':'五千年东方命理，<br>由 AI 为你精算解读。<br>八字 · 紫微 · 合婚 · 流年。',
+  'hero.cta1':'免费排盘','hero.cta2':'命理体系',
+  'stat.1':'东方命理传承','stat.2':'核心推演体系','stat.3':'生成完整命书','stat.4':'星宿全维解析',
+  'svc.eyebrow':'命理体系','svc.title':'一盘之中，<b>窥见天机</b>',
+  'svc.desc':'排盘以历法精算分毫不差，解读由 AI 化繁为简——古法与智能，各司其职。',
+  'svc.1t':'八字命书<em>八字 · BĀ ZÌ</em>','svc.1p':'以生辰立四柱，推五行旺衰、十神格局，详批性格、事业、财帛与姻缘。',
+  'svc.2t':'紫微斗数<em>紫微斗数 · ZǏ WĒI</em>','svc.2p':'布十二宫、安星曜四化，绘出一生命盘格局，洞见人生起伏与流年走势。',
+  'svc.3t':'合婚缘分<em>合婚 · HÉ HŪN</em>','svc.3p':'双盘相照，析五行生克、宫位相合，看两人缘深缘浅、相处之道。',
+  'svc.4t':'流年运程<em>流年 · LIÚ NIÁN</em>','svc.4p':'逐年推大运流年，明吉凶趋避之机，择吉日、定方向，知进退。',
+  'how.eyebrow':'推演原理','how.title':'古法排盘，<b>AI 解读</b>',
+  'how.1t':'录入生辰','how.1p':'输入出生的年月日时。历法引擎以二十四节气精确定盘，分毫不差。',
+  'how.2t':'精算命盘','how.2p':'瞬时排出四柱八字与紫微命盘，结构化呈现五行、星曜与宫位。',
+  'how.3t':'智能详批','how.3p':'AI 将玄奥命理化为清晰可读的命书，性格、事业、感情、流年，一览无余。',
+  'try.eyebrow':'即刻试算','try.title':'输入生辰，<b>先窥一斑</b>',
+  'try.year':'出生年','try.month':'出生月','try.day':'出生日','try.hour':'时辰','try.btn':'推演命格',
+  'try.ph':'天机未启。<br>录入生辰，方见端倪——<br>此处将显你的本命生肖与今日运势一隅。',
+  'price.eyebrow':'价格','price.title':'从一盘开始，<b>探见全貌</b>','price.badge':'最受欢迎',
+  'price.f.note':'初探天机，免费起卦','price.f.1':'基础排盘 · 本命生肖','price.f.2':'每日运势一隅','price.f.3':'命盘图鉴赏','price.f.btn':'免费开始',
+  'price.r.unit':' / 份','price.r.note':'单次深度命书','price.r.1':'八字 / 紫微完整详批','price.r.2':'性格 · 事业 · 财帛 · 姻缘','price.r.3':'当年流年运程','price.r.4':'精美命书可下载分享','price.r.btn':'立即推演',
+  'foot.read':'命理','foot.about':'关于','foot.how':'推演原理','foot.price':'价格','foot.privacy':'隐私政策','foot.contact':'联系我们',
+  'svc.1tt':'八字命书','svc.2tt':'紫微斗数','svc.3tt':'合婚缘分','svc.4tt':'流年运程',
+  'foot.disc':'© 2026 玄 XUAN. 本站所有命理推演内容仅供娱乐与自我参考之用，不构成医疗、法律、财务或任何重大决策建议。',
+  'wl.title':'加入等候名单','wl.desc':'完整命书即将上线。留下邮箱，抢先体验——上线即送一份免费命书。','wl.btn':'通知我','wl.ok':'已加入 ✦',
+  'try.alert':'请输入有效的出生年份（1920–2025）','sign':'本命生肖','today':'今日','unlock':'解锁完整命书 →'
+ }
+};
+let LANG='en';
+const HOURS_EN=['Zǐ · 23–01','Chǒu · 01–03','Yín · 03–05','Mǎo · 05–07','Chén · 07–09','Sì · 09–11','Wǔ · 11–13','Wèi · 13–15','Shēn · 15–17','Yǒu · 17–19','Xū · 19–21','Hài · 21–23'];
+const HOURS_ZH=['子时 · 23–01','丑时 · 01–03','寅时 · 03–05','卯时 · 05–07','辰时 · 07–09','巳时 · 09–11','午时 · 11–13','未时 · 13–15','申时 · 15–17','酉时 · 17–19','戌时 · 19–21','亥时 · 21–23'];
+const HOUR_VAL=[0,2,4,6,8,10,12,14,16,18,20,22]; // 代表小时,用于排盘
+
+function t(k){return (I18N[LANG]&&I18N[LANG][k])||k;}
+function applyLang(){
+  document.documentElement.lang = LANG==='zh'?'zh-CN':'en';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.getAttribute('data-i18n'));});
+  // selects
+  const ms=document.getElementById('m'),ds=document.getElementById('d'),hs=document.getElementById('h');
+  const mv=ms.value,dv=ds.value,hv=hs.value;
+  ms.innerHTML=`<option value="">${t('try.month')}</option>`;for(let i=1;i<=12;i++)ms.innerHTML+=`<option value="${i}">${i}</option>`;ms.value=mv;
+  ds.innerHTML=`<option value="">${t('try.day')}</option>`;for(let i=1;i<=31;i++)ds.innerHTML+=`<option value="${i}">${i}</option>`;ds.value=dv;
+  const H=LANG==='zh'?HOURS_ZH:HOURS_EN;hs.innerHTML='';H.forEach((lbl,i)=>hs.innerHTML+=`<option value="${i}">${lbl}</option>`);hs.value=hv||0;
+  document.getElementById('langBtn').textContent = LANG==='en'?'中':'EN';
+  bindCursor();
+}
+document.getElementById('langBtn').addEventListener('click',()=>{LANG=LANG==='en'?'zh':'en';applyLang();});
+
+/* ---------- cursor ---------- */
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(loop)})();
+function bindCursor(){document.querySelectorAll('a,button,[data-cur]').forEach(el=>{
+  el.onmouseenter=()=>{cur.classList.add('big');curR.style.width='52px';curR.style.height='52px';curR.style.opacity='.9'};
+  el.onmouseleave=()=>{cur.classList.remove('big');curR.style.width='34px';curR.style.height='34px';curR.style.opacity='.5'};});}
+
+/* ---------- loader / nav ---------- */
+addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('done'),2400));
+addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>40));
+
+/* ---------- starfield ---------- */
+const cv=document.getElementById('stars'),ctx=cv.getContext('2d');let stars=[],W,H;
+function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;stars=[];const n=Math.min(220,innerWidth/6);
+  for(let i=0;i<n;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.3+.2,a:Math.random(),s:Math.random()*.015+.003,vx:(Math.random()-.5)*.04,vy:(Math.random()-.5)*.04});}
+rsz();addEventListener('resize',rsz);
+(function draw(){ctx.clearRect(0,0,W,H);for(const s of stars){s.a+=s.s;let al=.3+Math.abs(Math.sin(s.a))*.7;s.x+=s.vx;s.y+=s.vy;
+  if(s.x<0)s.x=W;if(s.x>W)s.x=0;if(s.y<0)s.y=H;if(s.y>H)s.y=0;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,7);ctx.fillStyle=`rgba(233,212,163,${al*.8})`;ctx.fill();}requestAnimationFrame(draw)})();
+
+/* ---------- reveal ---------- */
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15}).observe;
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- divination ---------- */
+const zodiacCn=['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'];
+const zEn=['Rat','Ox','Tiger','Rabbit','Dragon','Snake','Horse','Goat','Monkey','Rooster','Dog','Pig'];
+const elemEn=['Water','Earth','Wood','Wood','Earth','Fire','Fire','Earth','Metal','Metal','Earth','Water'];
+const elemZh=['水','土','木','木','土','火','火','土','金','金','土','水'];
+const readEn={'鼠':'Quick-witted and perceptive. A hidden benefactor moves near you this year — stay calm, watch closely, and wealth arrives from the northwest.','牛':'Steady and enduring. Though progress feels slow, your foundation is firm; sweetness comes after the autumn.','虎':'Bold as a rising tide. Yet what is too rigid breaks — soften by a degree, and your edge becomes radiance.','兔':'Gentle and luminous, beloved by many. Warmth stirs in matters of the heart; a fated one waits to the east.','龙':'Born of rare talent, your fortune ascends. Seize the moment this year — one cry will astonish all.','蛇':'Still waters, deep design — the mark of the wise. Your quiet plans near fruition; do not rush them.','马':'Tireless, your spirit aims far. Travel and change favor you this year; unexpected joy lies to the south.','羊':'Soft yet resilient, blessed with lasting fortune. Home is at peace and wealth flows steadily — guard what you have.','猴':'Clever and resourceful. Side fortune stirs of late, but prune the excess branches — focus brings the harvest.','鸡':'Diligent and bright, you draw the light. Your name begins to rise; a benefactor from the west lends aid.','狗':'Loyal and upright, worthy of trust. Sincerity meets you in others; partnerships bear good fruit.','猪':'A blessed life, content and full. This year is stable and abundant — yet move, for stillness stalls fortune.'};
+const readZh={'鼠':'机敏多智，善察先机。今岁贵人潜伏左右，宜静观待时，财气自西北方来。','牛':'厚德载物，行稳致远。近来诸事虽缓，根基已固，秋后必见回甘。','虎':'气势如虹，宜进取。然刚极易折，遇事缓一分，则锋芒化为光华。','兔':'温润含章，人缘极佳。情之一事将有暖意萌动，东方有缘人相候。','龙':'天纵其才，运势升腾。本命之年宜把握良机，一鸣则惊四座。','蛇':'深谋静水，智者之相。暗中布局已久，时机将至，切忌操之过急。','马':'奔逸绝尘，志在远方。今岁出行、迁徙皆吉，南方有意外之喜。','羊':'柔中藏韧，福泽绵长。家宅安康，财源细水长流，宜守成添福。','猴':'灵变通达，多才善财。近期偏财有动，然花繁需修枝，专注一处方成。','鸡':'勤谨自持，光彩照人。名声运渐起，宜借势而为，西方贵人助力。','狗':'忠义守正，诸事可托。人际间得真心相待，合作之事将有善果。','猪':'有福之命，知足常乐。今岁安稳富足，唯需防过逸，动则生财。'};
+const hintsEn=['Be still today, and avoid conflict.','Auspicious air rises in the east — act freely today.','Reflect rather than act today; holding is best.','A benefactor is near — take initiative today.','Wealth stirs faintly today; a small venture won\u2019t hurt.','Keep the heart calm; today, fortune grows from within.'];
+const hintsZh=['今日宜静，忌争。','今日紫气东来，诸事可为。','今日宜思不宜动，守为上。','今日贵人在侧，主动为佳。','今日财气微旺，小试无妨。','今日心绪宜平，福自内生。'];
+
+document.getElementById('divineBtn').addEventListener('click',()=>{
+  const y=parseInt(document.getElementById('y').value);
+  if(!y||y<1920||y>2025){alert(t('try.alert'));return;}
+  const idx=((y-4)%12+12)%12,z=zodiacCn[idx],r=document.getElementById('result');
+  const read=LANG==='zh'?readZh[z]:readEn[z];
+  const hint=(LANG==='zh'?hintsZh:hintsEn)[Math.floor(Math.random()*6)];
+  const elem=LANG==='zh'?elemZh[idx]:elemEn[idx].toUpperCase();
+  const tag=LANG==='zh'?`${t('sign')} · ${z} · ${elem}`:`${t('sign')} · ${zEn[idx].toUpperCase()} · ${elem}`;
+  r.innerHTML=`<div class="result-zodiac">${z}</div><div class="result-tag">${tag}</div><div class="result-text">${read}</div>
+    <div class="result-foot">${t('today')}: ${hint}　<a class="wl-open" data-cur>${t('unlock')}</a></div>`;
+  bindCursor();bindWL();
+  requestAnimationFrame(()=>{['result-zodiac','result-tag','result-text','result-foot'].forEach(c=>r.querySelector('.'+c).classList.add('show'));});
+});
+
+/* ---------- waitlist ---------- */
+const overlay=document.getElementById('overlay');
+function openWL(){overlay.classList.add('show');}
+function closeWL(){overlay.classList.remove('show');}
+function bindWL(){document.querySelectorAll('.wl-open').forEach(b=>b.onclick=e=>{e.preventDefault();openWL();});}
+document.querySelectorAll('.wl-close').forEach(x=>x.onclick=closeWL);
+overlay.addEventListener('click',e=>{if(e.target===overlay)closeWL();});
+document.getElementById('wlSub').addEventListener('click',()=>{
+  const em=document.getElementById('wlEmail').value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){document.getElementById('wlEmail').style.borderColor='#b5563f';return;}
+  // 假门:此处真实部署时把 em POST 到你的后端 / 邮件服务 (Mailchimp, Supabase, ConvertKit...)
+  // fetch('/api/waitlist',{method:'POST',body:JSON.stringify({email:em})})
+  console.log('[waitlist] collected:',em);
+  document.getElementById('wlBody').innerHTML=`<div class="ok">${t('wl.ok')}</div>`;
+});
+
+/* init */
+applyLang();bindCursor();bindWL();
+</script>
+</body>
+</html>
