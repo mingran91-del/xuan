@@ -473,13 +473,29 @@ function closeWL(){overlay.classList.remove('show');}
 function bindWL(){document.querySelectorAll('.wl-open').forEach(b=>b.onclick=e=>{e.preventDefault();openWL();});}
 document.querySelectorAll('.wl-close').forEach(x=>x.onclick=closeWL);
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeWL();});
-document.getElementById('wlSub').addEventListener('click',()=>{
-  const em=document.getElementById('wlEmail').value.trim();
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){document.getElementById('wlEmail').style.borderColor='#b5563f';return;}
-  // 假门:此处真实部署时把 em POST 到你的后端 / 邮件服务 (Mailchimp, Supabase, ConvertKit...)
-  // fetch('/api/waitlist',{method:'POST',body:JSON.stringify({email:em})})
-  console.log('[waitlist] collected:',em);
-  document.getElementById('wlBody').innerHTML=`<div class="ok">${t('wl.ok')}</div>`;
+document.getElementById('wlSub').addEventListener('click', async ()=>{
+  const em = document.getElementById('wlEmail').value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){
+    document.getElementById('wlEmail').style.borderColor='#b5563f'; return;
+  }
+  const btn = document.getElementById('wlSub');
+  btn.disabled = true; btn.style.opacity = '.6';
+  try {
+    // ↓ 把 YOUR_FORM_ID 替换成你在 formspree.io 拿到的 ID(见部署指引第3步)
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        access_key: 'f071f262-b4d8-4b10-9a7c-d3df4c466a1d',
+        email: em,
+        subject: 'New Waitlist Signup — XUAN'
+      })
+    });
+    document.getElementById('wlBody').innerHTML = `<div class="ok">${t('wl.ok')}</div>`;
+  } catch(e) {
+    btn.disabled = false; btn.style.opacity = '1';
+    alert('Something went wrong, please try again.');
+  }
 });
 
 /* init */
